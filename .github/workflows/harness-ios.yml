@@ -55,7 +55,7 @@ jobs:
           npx react-native build-ios --mode Debug
 
       - name: Run harness tests
-        uses: callstackincubator/react-native-harness@v1
+        uses: callstackincubator/react-native-harness@b1dc9551ba9fb6c1ad6cb5b94196accf12063d9c # v1.1.0
         with:
           app: ios/build/Build/Products/Debug-iphonesimulator/CaptureViewExample.app
           runner: ios
