@@ -93,13 +93,6 @@ jobs:
             # Install the APK
             adb install example/android/app/build/outputs/apk/release/app-release.apk
 
-            # Start Metro in background
-            cd example && npx react-native start --port 8081 &
-            until curl -s http://localhost:8081/status | grep -q "packager-status:running"; do
-              sleep 2
-            done
-            cd ..
-
             # Launch app and wait
             adb shell am start -n captureview.example/.MainActivity
             sleep 5

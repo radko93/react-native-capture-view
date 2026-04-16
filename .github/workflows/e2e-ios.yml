@@ -79,15 +79,6 @@ jobs:
           APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "CaptureViewExample.app" -path "*/Release-iphonesimulator/*" | head -1)
           xcrun simctl install booted "$APP_PATH"
 
-      - name: Start Metro
-        run: |
-          cd example
-          npx react-native start --port 8081 &
-          # Wait for Metro to be ready
-          until curl -s http://localhost:8081/status | grep -q "packager-status:running"; do
-            sleep 2
-          done
-
       - name: Run Maestro E2E tests
         run: maestro test example/.maestro/
 
