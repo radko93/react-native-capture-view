@@ -199,6 +199,11 @@ Captures the entire screen. Returns `Promise<CaptureResult>`.
 - Use `jpg` with lower `quality` when file size matters
 - Very large scroll content captures may hit memory limits
 
+## Roadmap
+
+- Web platform support
+- Additional output formats (WebP, data-uri)
+
 ## License
 
 MIT
