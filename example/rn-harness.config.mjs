@@ -17,6 +17,8 @@ export default {
       device: androidEmulator('Pixel_6a', {
         apiLevel: 34,
         profile: 'pixel_6a',
+        diskSize: '4096m',
+        heapSize: '512m',
       }),
       bundleId: 'captureview.example',
     }),
