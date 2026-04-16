@@ -1,0 +1,61 @@
+name: Harness iOS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ios/**'
+      - 'src/**'
+      - 'example/**'
+      - '*.podspec'
+      - 'package.json'
+      - '.github/workflows/harness-ios.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'ios/**'
+      - 'src/**'
+      - 'example/**'
+      - '*.podspec'
+      - 'package.json'
+      - '.github/workflows/harness-ios.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  harness-ios:
+    runs-on: macos-26
+    timeout-minutes: 45
+
+    env:
+      XCODE_VERSION: 26.4
+      RCT_USE_RN_DEP: 1
+      RCT_USE_PREBUILT_RNCORE: 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Use appropriate Xcode version
+        uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1.7.0
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+
+      - name: Install cocoapods
+        run: |
+          cd example
+          bundle install
+          bundle exec pod install --project-directory=ios || \
+            (rm -rf ios/Pods ios/Podfile.lock && bundle exec pod install --project-directory=ios)
+
+      - name: Run harness tests
+        run: |
+          cd example
+          npx react-native-harness --harnessRunner ios
