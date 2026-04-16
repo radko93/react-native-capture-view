@@ -49,7 +49,14 @@ jobs:
           bundle exec pod install --project-directory=ios || \
             (rm -rf ios/Pods ios/Podfile.lock && bundle exec pod install --project-directory=ios)
 
-      - name: Run harness tests
+      - name: Build iOS app (Debug)
         run: |
           cd example
-          npx react-native-harness --harnessRunner ios
+          npx react-native build-ios --mode Debug
+
+      - name: Run harness tests
+        uses: callstackincubator/react-native-harness@v1
+        with:
+          app: ios/build/Build/Products/Debug-iphonesimulator/CaptureViewExample.app
+          runner: ios
+          projectRoot: example
