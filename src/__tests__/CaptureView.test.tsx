@@ -71,14 +71,14 @@ describe('CaptureView', () => {
         callbackId: string,
         format: string,
         quality: string,
-        resultType: string,
+        output: string,
         fullContent: boolean
       ) => {
         callOrder.push(`command:${callbackId}`);
         expect(nativeHandle).toBe(mockNativeHandle);
         expect(format).toBe('png');
         expect(quality).toBe('1');
-        expect(resultType).toBe('tmpfile');
+        expect(output).toBe('tmpfile');
         expect(fullContent).toBe(false);
       }
     );

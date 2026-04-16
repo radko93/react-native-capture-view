@@ -27,16 +27,16 @@ class CaptureViewViewManager :
         callbackId: String?,
         format: String?,
         quality: String?,
-        resultType: String?,
-        snapshotContentContainer: Boolean,
+        output: String?,
+        fullContent: Boolean,
     ) {
         if (view == null || callbackId == null) return
         view.capture(
             callbackId = callbackId,
             format = format ?: "png",
             quality = quality?.toDoubleOrNull() ?: 1.0,
-            resultType = resultType ?: "tmpfile",
-            fullContent = snapshotContentContainer,
+            output = output ?: "tmpfile",
+            fullContent = fullContent,
         )
     }
 

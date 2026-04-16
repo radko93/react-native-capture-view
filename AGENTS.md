@@ -59,14 +59,13 @@ The ordering in steps 3 and 4 is important. Tests cover it.
 
 ## Naming Caveat
 
-The public JS API uses:
+The public JS API and the codegen/native command interface both use:
 
 - `output`
 - `fullContent`
 
-Some native and codegen-facing internals still use older names such as
-`resultType` and `snapshotContentContainer`. When changing this area, treat
-`src/types.ts` and `README.md` as the user-facing contract.
+When changing this area, treat `src/types.ts` and `README.md` as the
+user-facing contract.
 
 ## Editing Guardrails
 

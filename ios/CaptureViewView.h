@@ -8,8 +8,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)captureWithCallbackId:(NSString *)callbackId
                        format:(NSString *)format
                       quality:(double)quality
-                   resultType:(NSString *)resultType
-     snapshotContentContainer:(BOOL)snapshotContentContainer;
+                       output:(NSString *)output
+                  fullContent:(BOOL)fullContent;
 
 @end
 

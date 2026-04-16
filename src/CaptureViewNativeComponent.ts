@@ -15,8 +15,8 @@ interface NativeCommands {
     callbackId: string,
     format: string,
     quality: string,
-    resultType: string,
-    snapshotContentContainer: boolean
+    output: string,
+    fullContent: boolean
   ) => void;
 }
 

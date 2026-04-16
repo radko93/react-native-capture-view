@@ -21,13 +21,13 @@ class CaptureViewView(context: Context) : ViewGroup(context) {
         callbackId: String,
         format: String,
         quality: Double,
-        resultType: String,
+        output: String,
         fullContent: Boolean = false,
     ) {
         if (fullContent) {
-            captureScrollContent(callbackId, format, quality, resultType)
+            captureScrollContent(callbackId, format, quality, output)
         } else {
-            captureViewport(callbackId, format, quality, resultType)
+            captureViewport(callbackId, format, quality, output)
         }
     }
 
@@ -35,7 +35,7 @@ class CaptureViewView(context: Context) : ViewGroup(context) {
         callbackId: String,
         format: String,
         quality: Double,
-        resultType: String,
+        output: String,
     ) {
         val captureWidth = width
         val captureHeight = height
@@ -58,7 +58,7 @@ class CaptureViewView(context: Context) : ViewGroup(context) {
             val canvas = Canvas(bitmap)
             draw(canvas)
             CaptureUtils.drawTextureViews(this, canvas, 0, 0)
-            CaptureUtils.compressAndResolve(context, bitmap, callbackId, format, quality, resultType, captureWidth, captureHeight)
+            CaptureUtils.compressAndResolve(context, bitmap, callbackId, format, quality, output, captureWidth, captureHeight)
         } catch (e: OutOfMemoryError) {
             CaptureModule.rejectCapture(callbackId, "E_OOM", "Out of memory creating bitmap")
         } catch (e: Exception) {
@@ -70,7 +70,7 @@ class CaptureViewView(context: Context) : ViewGroup(context) {
         callbackId: String,
         format: String,
         quality: Double,
-        resultType: String,
+        output: String,
     ) {
         val scrollView = findScrollView(this)
         if (scrollView == null) {
@@ -108,7 +108,7 @@ class CaptureViewView(context: Context) : ViewGroup(context) {
             // Draw the content child directly — no scroll state mutation
             contentView.draw(canvas)
             CaptureUtils.drawTextureViews(contentView, canvas, 0, 0)
-            CaptureUtils.compressAndResolve(context, bitmap, callbackId, format, quality, resultType, captureWidth, captureHeight)
+            CaptureUtils.compressAndResolve(context, bitmap, callbackId, format, quality, output, captureWidth, captureHeight)
         } catch (e: OutOfMemoryError) {
             CaptureModule.rejectCapture(callbackId, "E_OOM", "Out of memory creating bitmap")
         } catch (e: Exception) {

@@ -36,8 +36,8 @@ using namespace facebook::react;
 - (void)capture:(NSString *)callbackId
          format:(NSString *)format
         quality:(NSString *)quality
-     resultType:(NSString *)resultType
-snapshotContentContainer:(BOOL)snapshotContentContainer
+         output:(NSString *)output
+    fullContent:(BOOL)fullContent
 {
     double qualityValue = [quality doubleValue];
     if (quality.length == 0) qualityValue = 1.0;
@@ -45,15 +45,15 @@ snapshotContentContainer:(BOOL)snapshotContentContainer
     [self captureWithCallbackId:callbackId
                          format:format
                         quality:qualityValue
-                     resultType:resultType
-       snapshotContentContainer:snapshotContentContainer];
+                         output:output
+                    fullContent:fullContent];
 }
 
 - (void)captureWithCallbackId:(NSString *)callbackId
                        format:(NSString *)format
                       quality:(double)quality
-                   resultType:(NSString *)resultType
-     snapshotContentContainer:(BOOL)snapshotContentContainer
+                       output:(NSString *)output
+                  fullContent:(BOOL)fullContent
 {
     UIView *viewToCapture = self;
     CGSize size = self.bounds.size;
@@ -61,12 +61,12 @@ snapshotContentContainer:(BOOL)snapshotContentContainer
     // Handle scroll view content capture
     UIScrollView *scrollView = nil;
 
-    if (snapshotContentContainer) {
+    if (fullContent) {
         scrollView = [self findScrollView:self];
         if (!scrollView) {
             [CaptureModule rejectCapture:callbackId
                                     code:@"E_NO_SCROLL"
-                                 message:@"snapshotContentContainer requires a ScrollView child"];
+                                 message:@"fullContent requires a ScrollView child"];
             return;
         }
 
@@ -150,7 +150,7 @@ snapshotContentContainer:(BOOL)snapshotContentContainer
             @"format": format,
         } mutableCopy];
 
-        if ([resultType isEqualToString:@"base64"]) {
+        if ([output isEqualToString:@"base64"]) {
             result[@"base64"] = [data base64EncodedStringWithOptions:0];
         } else {
             NSError *error = nil;

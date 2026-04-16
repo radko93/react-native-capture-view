@@ -33,12 +33,7 @@ function CaptureViewImpl(props: Props, ref: React.Ref<CaptureViewRef>) {
         );
       }
 
-      const {
-        format,
-        quality,
-        output: resultType,
-        fullContent,
-      } = resolvedOptions;
+      const { format, quality, output, fullContent } = resolvedOptions;
       const callbackId = Math.random().toString(36).slice(2);
 
       const resultPromise = NativeCaptureModule.waitForCapture(callbackId);
@@ -49,7 +44,7 @@ function CaptureViewImpl(props: Props, ref: React.Ref<CaptureViewRef>) {
         callbackId,
         format,
         String(quality),
-        resultType,
+        output,
         fullContent
       );
 

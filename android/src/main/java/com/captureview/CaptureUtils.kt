@@ -20,7 +20,7 @@ object CaptureUtils {
         callbackId: String,
         format: String,
         quality: Double,
-        resultType: String,
+        output: String,
         captureWidth: Int,
         captureHeight: Int,
     ) {
@@ -35,7 +35,7 @@ object CaptureUtils {
                     "format" to format,
                 )
 
-                if (resultType == "base64") {
+                if (output == "base64") {
                     val baos = ByteArrayOutputStream()
                     bitmap.compress(compressFormat, qualityInt, baos)
                     resultMap["base64"] = Base64.encodeToString(baos.toByteArray(), Base64.NO_WRAP)
