@@ -51,8 +51,17 @@ jobs:
 
       - name: Build iOS app (Debug)
         run: |
-          cd example
-          npx react-native build-ios --mode Debug
+          cd example/ios
+          xcodebuild \
+            -workspace CaptureViewExample.xcworkspace \
+            -scheme CaptureViewExample \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            build \
+            | xcpretty --color && exit ${PIPESTATUS[0]}
 
       - name: Run harness tests
         uses: callstackincubator/react-native-harness@b1dc9551ba9fb6c1ad6cb5b94196accf12063d9c # v1.1.0

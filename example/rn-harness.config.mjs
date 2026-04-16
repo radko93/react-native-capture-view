@@ -14,7 +14,10 @@ export default {
   runners: [
     androidPlatform({
       name: 'android',
-      device: androidEmulator('Pixel_6a'),
+      device: androidEmulator('Pixel_6a', {
+        apiLevel: 34,
+        profile: 'pixel_6a',
+      }),
       bundleId: 'captureview.example',
     }),
     applePlatform({
