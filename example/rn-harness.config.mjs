@@ -19,7 +19,7 @@ export default {
     }),
     applePlatform({
       name: 'ios',
-      device: appleSimulator('iPhone 17', '26.4'),
+      device: appleSimulator('iPhone 17', '26.2'),
       bundleId: 'captureview.example',
     }),
   ],
