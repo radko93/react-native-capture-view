@@ -12,7 +12,7 @@
     "test:harness:android": "npx react-native-harness --harnessRunner android"
   },
   "dependencies": {
-    "react": "19.2.3",
+    "react": "19.2.5",
     "react-native": "0.85.0"
   },
   "devDependencies": {
