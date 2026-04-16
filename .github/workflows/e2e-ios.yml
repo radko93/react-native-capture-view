@@ -73,14 +73,33 @@ jobs:
           APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "CaptureViewExample.app" -path "*/Release-iphonesimulator/*" | head -1)
           xcrun simctl install booted "$APP_PATH"
 
+      - name: Start screen recording
+        run: |
+          xcrun simctl io booted recordVideo --codec h264 /tmp/maestro-recording.mp4 &
+          echo $! > /tmp/recording-pid.txt
+
       - name: Run Maestro E2E tests
         env:
           MAESTRO_DRIVER_STARTUP_TIMEOUT: 300000
         run: maestro test example/.maestro/
+
+      - name: Stop screen recording
+        if: always()
+        run: kill "$(cat /tmp/recording-pid.txt)" 2>/dev/null || true; sleep 2
+
+      - name: Collect crash logs
+        if: failure()
+        run: |
+          mkdir -p /tmp/crash-logs
+          cp ~/Library/Logs/DiagnosticReports/*.ips /tmp/crash-logs/ 2>/dev/null || true
+          cp ~/Library/Logs/DiagnosticReports/*.crash /tmp/crash-logs/ 2>/dev/null || true
 
       - name: Upload failure artifacts
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: maestro-ios-failures
-          path: ~/.maestro/tests/
+          path: |
+            ~/.maestro/tests/
+            /tmp/maestro-recording.mp4
+            /tmp/crash-logs/
