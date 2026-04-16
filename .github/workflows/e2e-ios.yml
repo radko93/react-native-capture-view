@@ -74,6 +74,8 @@ jobs:
           xcrun simctl install booted "$APP_PATH"
 
       - name: Run Maestro E2E tests
+        env:
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: 300000
         run: maestro test example/.maestro/
 
       - name: Upload failure artifacts
