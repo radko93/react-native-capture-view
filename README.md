@@ -1,6 +1,23 @@
 # react-native-capture-view
 
-Capture React Native views as images. Built for the New Architecture (Fabric + TurboModules).
+[![npm version](https://img.shields.io/npm/v/react-native-capture-view.svg)](https://www.npmjs.com/package/react-native-capture-view)
+
+Capture a React Native view, screen, or `ScrollView` as an image on iOS and Android. Built for the New Architecture (Fabric + TurboModules).
+
+Use this library when you need:
+
+- React Native screenshot capture for a specific view
+- full `ScrollView` content capture
+- full screen capture
+- a Fabric-compatible alternative to older view-shot libraries
+
+Choose the API based on what you want to capture:
+
+| API | Use when |
+|-----|----------|
+| `CaptureView` | Capture a specific rendered view subtree |
+| `CaptureScrollView` | Capture the full content of a plain `ScrollView` |
+| `captureScreen()` | Capture the currently visible screen |
 
 ## Requirements
 
