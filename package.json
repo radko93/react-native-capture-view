@@ -1,7 +1,7 @@
 {
   "name": "react-native-capture-view",
   "version": "0.0.1-alpha.0",
-  "description": "Capture React Native views as images",
+  "description": "Fabric-compatible React Native view, screen, and ScrollView capture for iOS and Android",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "exports": {
@@ -42,6 +42,18 @@
   },
   "keywords": [
     "react-native",
+    "react-native-library",
+    "screenshot",
+    "snapshot",
+    "capture",
+    "view-capture",
+    "view-shot",
+    "scrollview",
+    "scroll-view",
+    "fabric",
+    "new-architecture",
+    "turbomodule",
+    "expo",
     "ios",
     "android"
   ],
