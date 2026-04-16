@@ -91,7 +91,7 @@ jobs:
           disable-animations: true
           script: |
             # Install the APK
-            adb install example/android/app/build/outputs/apk/debug/app-debug.apk
+            adb install example/android/app/build/outputs/apk/release/app-release.apk
 
             # Start Metro in background
             cd example && npx react-native start --port 8081 &

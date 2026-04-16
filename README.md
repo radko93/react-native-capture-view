@@ -1,6 +1,7 @@
 # react-native-capture-view
 
 [![npm version](https://img.shields.io/npm/v/react-native-capture-view.svg)](https://www.npmjs.com/package/react-native-capture-view)
+[![CI](https://github.com/radko93/react-native-capture-view/actions/workflows/e2e-ios.yml/badge.svg)](https://github.com/radko93/react-native-capture-view/actions/workflows/e2e-ios.yml)
 
 Capture a React Native view, screen, or `ScrollView` as an image on iOS and Android. Built for the New Architecture (Fabric + TurboModules).
 
