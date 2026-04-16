@@ -1,0 +1,12 @@
+appId: captureview.example
+---
+- launchApp
+- assertVisible: "react-native-capture-view"
+- tapOn: "Capture Screen"
+- extendedWaitUntil:
+    visible:
+      id: "btn-close-preview"
+    timeout: 10000
+- takeScreenshot: capture-screen-result
+- tapOn:
+    id: "btn-close-preview"

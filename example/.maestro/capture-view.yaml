@@ -1,0 +1,12 @@
+appId: captureview.example
+---
+- launchApp
+- assertVisible: "Hello from CaptureView"
+- tapOn: "Capture View"
+- extendedWaitUntil:
+    visible:
+      id: "btn-close-preview"
+    timeout: 10000
+- takeScreenshot: capture-view-result
+- tapOn:
+    id: "btn-close-preview"

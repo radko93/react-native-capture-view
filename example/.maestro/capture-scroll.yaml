@@ -1,0 +1,14 @@
+appId: captureview.example
+---
+- launchApp
+- scrollUntilVisible:
+    element: "Capture Full Scroll"
+    direction: DOWN
+- tapOn: "Capture Full Scroll"
+- extendedWaitUntil:
+    visible:
+      id: "btn-close-preview"
+    timeout: 10000
+- takeScreenshot: capture-scroll-result
+- tapOn:
+    id: "btn-close-preview"

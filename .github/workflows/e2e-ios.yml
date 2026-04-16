@@ -1,0 +1,99 @@
+name: E2E iOS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ios/**'
+      - 'src/**'
+      - 'example/**'
+      - '*.podspec'
+      - 'package.json'
+      - '.github/workflows/e2e-ios.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'ios/**'
+      - 'src/**'
+      - 'example/**'
+      - '*.podspec'
+      - 'package.json'
+      - '.github/workflows/e2e-ios.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e-ios:
+    runs-on: macos-latest
+    timeout-minutes: 45
+
+    env:
+      XCODE_VERSION: 26
+      RCT_USE_RN_DEP: 1
+      RCT_USE_PREBUILT_RNCORE: 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Use appropriate Xcode version
+        uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd # v1.6.0
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+
+      - name: Install cocoapods
+        run: |
+          cd example
+          bundle install
+          bundle exec pod install --project-directory=ios || \
+            (rm -rf ios/Pods ios/Podfile.lock && bundle exec pod install --project-directory=ios)
+
+      - name: Build iOS app (Release)
+        run: |
+          cd example/ios
+          xcodebuild \
+            -workspace CaptureViewExample.xcworkspace \
+            -scheme CaptureViewExample \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=latest' \
+            CODE_SIGNING_ALLOWED=NO \
+            build \
+            | xcpretty --color && exit ${PIPESTATUS[0]}
+
+      - name: Install Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: Boot simulator and install app
+        run: |
+          xcrun simctl boot "iPhone 16 Pro" 2>/dev/null || true
+          APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "CaptureViewExample.app" -path "*/Debug-iphonesimulator/*" | head -1)
+          xcrun simctl install booted "$APP_PATH"
+
+      - name: Start Metro
+        run: |
+          cd example
+          npx react-native start --port 8081 &
+          # Wait for Metro to be ready
+          until curl -s http://localhost:8081/status | grep -q "packager-status:running"; do
+            sleep 2
+          done
+
+      - name: Run Maestro E2E tests
+        run: maestro test example/.maestro/
+
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+        with:
+          name: maestro-ios-failures
+          path: ~/.maestro/tests/
