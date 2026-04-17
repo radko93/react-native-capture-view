@@ -64,7 +64,7 @@ jobs:
             | xcpretty --color && exit ${PIPESTATUS[0]}
 
       - name: Run harness tests
-        uses: callstackincubator/react-native-harness@b1dc9551ba9fb6c1ad6cb5b94196accf12063d9c # v1.1.0
+        uses: callstackincubator/react-native-harness@0da1aef3c45964f14c00513b27f836cd9ae0d74f # v1.1.0
         with:
           app: ios/build/Build/Products/Debug-iphonesimulator/CaptureViewExample.app
           runner: ios
