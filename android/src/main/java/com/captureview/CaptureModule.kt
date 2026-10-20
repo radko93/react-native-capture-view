@@ -63,7 +63,7 @@ class CaptureModule(private val reactContext: ReactApplicationContext) :
         val resultType = if (options.hasKey("result")) options.getString("result") ?: "tmpfile" else "tmpfile"
 
         reactContext.runOnUiQueueThread {
-            val activity = currentActivity
+            val activity = reactContext.currentActivity
             if (activity == null) {
                 promise.reject("E_NO_ACTIVITY", "No current activity")
                 return@runOnUiQueueThread
